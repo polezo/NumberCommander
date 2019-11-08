@@ -2,19 +2,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let additionBtn = document.querySelector("#addition")
   additionBtn.addEventListener('click', () => {
-    generateExpression()
+    generateExpression("add")
   })
 
   let subtractionBtn = document.querySelector("#subtraction")
   subtractionBtn.addEventListener("click", () => {
-    console.log("hi from subtraction")
+    generateExpression("sub")
   })
 
   let multiplicationBtn = document.querySelector("#multiplication")
   multiplicationBtn.addEventListener("click", () => {
-    console.log("hi from multiplication")
+    generateExpression("mult")
   })
-  // generateExpression()
 });
 
 function generateExpression(operator){
@@ -24,13 +23,23 @@ function generateExpression(operator){
   let num1 = Math.floor(Math.random()*10)
   let num2 = Math.floor(Math.random()*10)
 
-  expressionContainer.append(`${num1} + ${num2}`)
+  let operations = {
+    "add": "+",
+    "sub": "-",
+    "mult": "*"
+  }
 
-  let solution = num1 + num2
+  let evaluate = {
+    "add" : num1 + num2,
+    "sub" : num1 - num2,
+    "mult" : num1 * num2
+  }
+  
+  expressionContainer.append(`${num1} ${operations[operator]} ${num2}`)
+  
+  let solution = evaluate[operator]
 
   generateNumbers(solution)
-  // renderSolutionCards(solution)
-  console.log(solution)
 }
 
 function generateNumbers(solution){
@@ -51,6 +60,7 @@ function generateNumbers(solution){
 function renderSolutionCards(numbersArray){
   let solutionCards = document.getElementsByClassName("solution-card")
   let i = 0
+
   Array.from(solutionCards).forEach(function(card){
     card.innerText = numbersArray[i]
     i++
