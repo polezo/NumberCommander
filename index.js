@@ -1,4 +1,15 @@
+let level = 0
+
 document.addEventListener("DOMContentLoaded", () => {
+
+  let levelSlider = document.querySelector("#level-slider")
+  levelSlider.addEventListener("input", () => {
+    console.log("initial level", level)
+    level = event.currentTarget.value
+    console.log("new level: ", level)
+
+  })
+
 
   let additionBtn = document.querySelector("#addition")
   additionBtn.addEventListener('click', () => {
