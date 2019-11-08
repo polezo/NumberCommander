@@ -23,6 +23,11 @@ function generateExpression(operator){
   let num1 = Math.floor(Math.random()*10)
   let num2 = Math.floor(Math.random()*10)
 
+  if ( operator === "sub" && num1 < num2 ){
+    let diff = Math.abs(num1 - num2)
+    num1 += diff
+  }
+
   let operations = {
     "add": "+",
     "sub": "-",
