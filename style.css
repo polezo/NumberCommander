@@ -1,0 +1,13 @@
+#title {
+  text-align: center;
+}
+
+#expression {
+  border: 1px solid black;
+}
+
+.solution-card {
+  border: 1px solid red;
+  width: 50px;
+  height: 50px;
+}
