@@ -20,15 +20,14 @@ function generateExpression(operator){
   let expressionContainer = document.querySelector("#expression")
   expressionContainer.innerText = ""
 
-  let num1 = Math.floor(Math.random()*10)
-  let num2 = Math.floor(Math.random()*10)
+  let num1 = Math.floor(Math.random() * 11)
+  let num2 = Math.floor(Math.random() * 11)
 
-  if ( operator === "sub" && num1 < num2 ){
-    let diff = Math.abs(num1 - num2)
-    num1 += diff
+  while ( operator === "sub" && num1 < num2 ){
+    num1 = Math.floor(Math.random() * 11)
   }
 
-  let operations = {
+  let operationSymbol = {
     "add": "+",
     "sub": "-",
     "mult": "*"
@@ -40,7 +39,7 @@ function generateExpression(operator){
     "mult" : num1 * num2
   }
   
-  expressionContainer.append(`${num1} ${operations[operator]} ${num2}`)
+  expressionContainer.append(`${num1} ${operationSymbol[operator]} ${num2}`)
   
   let solution = evaluate[operator]
 
