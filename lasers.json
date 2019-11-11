@@ -1,0 +1,64 @@
+{
+	"metadata": {
+		"version": 4.5,
+		"type": "Object",
+		"generator": "Object3D.toJSON"
+	},
+	"geometries": [
+		{
+			"uuid": "D9A081E7-55D0-4F60-8A48-0AA21B2854CC",
+			"type": "CylinderBufferGeometry",
+			"radiusTop": 0.185,
+			"radiusBottom": 0.185,
+			"height": 5.78,
+			"radialSegments": 8,
+			"heightSegments": 1,
+			"openEnded": false
+		}],
+	"materials": [
+		{
+			"uuid": "430F8259-D6E0-4CC4-BD8C-A2E2C3F62A47",
+			"type": "MeshStandardMaterial",
+			"color": 16777215,
+			"roughness": 0.5,
+			"metalness": 0.0,
+			"emissive": 65280,
+			"depthFunc": 3,
+			"depthTest": true,
+			"depthWrite": true,
+			"stencilWrite": false,
+			"stencilWriteMask": 255,
+			"stencilFunc": 519,
+			"stencilRef": 0,
+			"stencilFuncMask": 255,
+			"stencilFail": 7680,
+			"stencilZFail": 7680,
+			"stencilZPass": 7680
+		}],
+	"object": {
+		"uuid": "45630D31-02AF-46DB-95C6-A8C1064B4E99",
+		"type": "Group",
+		"name": "lasers",
+		"layers": 1,
+		"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,330.946453,1],
+		"children": [
+			{
+				"uuid": "9E2A1421-15D7-4566-8A34-1A6212F7766B",
+				"type": "Mesh",
+				"name": "leftLaser",
+				"layers": 1,
+				"matrix": [13.52,0,0,0,0,-0.014097,13.519993,0,0,-13.519993,-0.014097,0,31.487496,-1.558099,64.819453,1],
+				"geometry": "D9A081E7-55D0-4F60-8A48-0AA21B2854CC",
+				"material": "430F8259-D6E0-4CC4-BD8C-A2E2C3F62A47"
+			},
+			{
+				"uuid": "0A28FCA0-CFA3-4000-AB67-0C3541DD64FA",
+				"type": "Mesh",
+				"name": "rightLaser",
+				"layers": 1,
+				"matrix": [13.52,0,0,0,0,-0.014097,13.519993,0,0,-13.519993,-0.014097,0,-31.005978,-1.558099,64.819,1],
+				"geometry": "D9A081E7-55D0-4F60-8A48-0AA21B2854CC",
+				"material": "430F8259-D6E0-4CC4-BD8C-A2E2C3F62A47"
+			}]
+	}
+}
