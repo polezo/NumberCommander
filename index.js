@@ -6,43 +6,44 @@ let levelInfo = {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-
   renderLevel()
 
   let levelSlider = document.querySelector("#level-slider")
   levelSlider.addEventListener("input", () => {
     level = event.currentTarget.value
-    difficulty(level)
+    setDifficulty(level)
     renderLevel()
   })
 
   let additionBtn = document.querySelector("#addition")
   additionBtn.addEventListener('click', () => {
-    generateExpression("add", difficulty(level))
+    generateExpression("add", levelInfo)
   })
 
   let subtractionBtn = document.querySelector("#subtraction")
   subtractionBtn.addEventListener("click", () => {
-    generateExpression("sub", difficulty(level))
+    generateExpression("sub", levelInfo)
   })
 
   let multiplicationBtn = document.querySelector("#multiplication")
   multiplicationBtn.addEventListener("click", () => {
-    generateExpression("mult", difficulty(level))
+    generateExpression("mult", levelInfo)
   })
   
 });
 
-function difficulty(level){
+function setDifficulty(level){
   switch (level) {
     case "1":
       levelInfo.randFactor = 6;
       levelInfo.name = "Easy";
       break;
+
     case "2": 
       levelInfo.randFactor = 11;
       levelInfo.name = "Harder";
       break;
+
     case "3":
       levelInfo.randFactor = 21;
       levelInfo.name = "Hardest";
@@ -56,21 +57,12 @@ function renderLevel() {
   levelDiv.innerText = levelInfo.name
 }
 
-function generateExpression(operator, randFactor){
-  let expressionContainer = document.querySelector("#expression")
-  expressionContainer.innerText = ""
-
-  let num1 = Math.floor(Math.random() * randFactor)
-  let num2 = Math.floor(Math.random() * randFactor)
+function generateExpression(operator, levelInfo){
+  let num1 = Math.floor(Math.random() * levelInfo.randFactor)
+  let num2 = Math.floor(Math.random() * levelInfo.randFactor)
 
   while ( operator === "sub" && num1 < num2 ){
-    num1 = Math.floor(Math.random() * randFactor)
-  }
-
-  let operationSymbol = {
-    "add": "+",
-    "sub": "-",
-    "mult": "*"
+    num1 = Math.floor(Math.random() * levelInfo.randFactor)
   }
 
   let evaluate = {
@@ -79,21 +71,32 @@ function generateExpression(operator, randFactor){
     "mult" : num1 * num2
   }
   
-  expressionContainer.append(`${num1} ${operationSymbol[operator]} ${num2}`)
-  
   let solution = evaluate[operator]
-
-  generateNumbers(solution, difficulty(level))
+  renderExpression(operator, num1, num2)
+  generateNumbers(solution, levelInfo)
 }
 
-function generateNumbers(solution, randFactor){
+function renderExpression(operator, num1, num2){
+  let expressionContainer = document.querySelector("#expression")
+  expressionContainer.innerText = ""
+
+  let operationSymbol = {
+    "add": "+",
+    "sub": "-",
+    "mult": "*"
+  }
+
+  expressionContainer.append(`${num1} ${operationSymbol[operator]} ${num2}`)
+}
+
+function generateNumbers(solution, levelInfo){
   let numbersArray = []
   numbersArray.push(solution)
 
   let i = 0
   while (i < 4) {
     let num
-    num = Math.floor(Math.random() * randFactor * 2)
+    num = Math.floor(Math.random() * levelInfo.randFactor * 2)
     numbersArray.push(num)
     i++
   }
