@@ -20,18 +20,36 @@ document.addEventListener("DOMContentLoaded", () => {
   let additionBtn = document.querySelector("#addition")
   additionBtn.addEventListener('click', () => {
     operator = "add"
+    playing =true;
+    points = 0;
+    if (badGuys) {
+      scene.remove(badGuys)
+    }
+    badGuys = getEnemies()
     // generateExpression(operator, levelInfo)
   })
 
   let subtractionBtn = document.querySelector("#subtraction")
   subtractionBtn.addEventListener("click", () => {
     operator = "sub"
+    playing = true;
+    points = 0;
+    if (badGuys) {
+      scene.remove(badGuys)
+    }
+    badGuys = getEnemies()
     // generateExpression("sub", levelInfo)
   })
 
   let multiplicationBtn = document.querySelector("#multiplication")
   multiplicationBtn.addEventListener("click", () => {
+    playing = true;
+    points = 0;
     operator = "mult"
+    if (badGuys) {
+      scene.remove(badGuys)
+    }
+    badGuys = getEnemies()
     // generateExpression("mult", levelInfo)
   })
   

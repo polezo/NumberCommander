@@ -33,6 +33,8 @@ var domEvents = new THREEx.DomEvents(camera, renderer.domElement);
 document.getElementById("webGl").appendChild(canvas);
 document.getElementById("webGl").appendChild(canvasTwo);
 
+let playing = false;
+
 //ANIMATION LOOPs
 
 //stars animation loop
@@ -43,7 +45,7 @@ rendererTwo.setAnimationLoop(()=>{
     camera.aspect = canvas.clientWidth / canvas.clientHeight;
     camera.updateProjectionMatrix();
   }
-
+  if (playing) {
   var particleSystem = sceneTwo.getObjectByName('particleSystem');
 	particleSystem.geometry.vertices.forEach(particle => {
     particle.z += 0.3;
@@ -54,11 +56,15 @@ rendererTwo.setAnimationLoop(()=>{
   //required logic to animate individual stars, may  want to optimize
 
   particleSystem.geometry.verticesNeedUpdate = true;
+  }
   rendererTwo.render(sceneTwo, camera);
-
+  
 });
 
 //ship/enemies animation loop
+
+let badGuys
+let badGuySpeed = 0.16
 
 renderer.setAnimationLoop(() => {
   if (resize(renderer)) {
@@ -77,18 +83,17 @@ renderer.setAnimationLoop(() => {
     }
   }
 
+  if (playing) {
   //badguysAnimate
+  
+      badGuys.position.z +=badGuySpeed;
 
-  if (badGuys) {
-    badGuys.position.z +=0.1;
-
-     if (badGuys.position.z > 14) {
-     scene.remove(badGuys);
-     badGuys = getEnemies()
-     console.log("bad guys expired")
+      if (badGuys.position.z > 14.6) {
+      scene.remove(badGuys);
+      badGuys = getEnemies()
+      console.log("bad guys expired")
+      }
     }
-  }
-
   renderer.render(scene,camera);
 });
 
@@ -196,9 +201,9 @@ function getBoxGrid(amount, separationMultiplier) {
 
 	for (var i=0; i<amount; i++) {
 		var obj = getBox(3, 1.5, 3);
-		obj.position.x = (i * separationMultiplier)*(Math.random()+0.3);
+		obj.position.x = (i * separationMultiplier)*(Math.random()+0.42);
     obj.position.y = (i *  (separationMultiplier/4))*Math.random();
-    obj.position.z = (i * (separationMultiplier/8))*Math.random();
+    obj.position.z = (i * (separationMultiplier/5))*Math.random();
 		group.add(obj);
 	}
 
@@ -211,10 +216,10 @@ function getBoxGrid(amount, separationMultiplier) {
 function getEnemies() {
   generateExpression(operator, levelInfo)
   enemies = getBoxGrid(5,8.5);
-  enemies.position.x = (Math.random()-2.4)*10;
+  enemies.position.x = (Math.random()-2.8)*10;
   enemies.rotation.x = Math.PI/2;
   enemies.position.z -=20;
-  enemies.position.y +=5;
+  enemies.position.y +=7;
   scene.add(enemies);
   
   let light = new THREE.PointLight( 0xfbeee4, 1 );
@@ -227,9 +232,6 @@ function getEnemies() {
   return enemies;
 }
 
-//call first round of enemies
-
-let badGuys = getEnemies()
 
 //define vars to make ship and lasers globally accessible (not best practice, should set names for them instead)
 
@@ -269,6 +271,7 @@ function onLoad ( shipGltf ) {
 function onAttack(event){
     currentShip.lookAt(event.target.getWorldPosition(pointOfIntersection))
     event.target.visible = false;
+    addPoints()
 }
 
 let lasersFired = false;
@@ -291,8 +294,8 @@ var particleGeo = new THREE.Geometry();
 		depthWrite: false
 	});
 
-	var particleCount = 15000;
-	var particleDistance = 120;
+	var particleCount = 10000;
+	var particleDistance = 80;
 
 	for (var i=0; i<particleCount; i++) {
 		var posX = (Math.random() - 0.5) * particleDistance;
@@ -308,4 +311,15 @@ var particleGeo = new THREE.Geometry();
 		particleMat
 	);
 	particleSystem.name = 'particleSystem';
-	sceneTwo.add(particleSystem);
+  sceneTwo.add(particleSystem);
+  
+  points = 0;
+
+  function addPoints() {
+    if (points < 10) {
+    points++
+    document.getElementById("pointsCounter").innerText = points
+    } else {
+      playing = false;
+    }
+  }
