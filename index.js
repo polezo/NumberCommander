@@ -1,10 +1,19 @@
 let level = "1"
 
+let levelInfo = {
+  "randFactor": 6,
+  "name" : "Easy"
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+
+  renderLevel()
 
   let levelSlider = document.querySelector("#level-slider")
   levelSlider.addEventListener("input", () => {
     level = event.currentTarget.value
+    difficulty(level)
+    renderLevel()
   })
 
   let additionBtn = document.querySelector("#addition")
@@ -21,22 +30,30 @@ document.addEventListener("DOMContentLoaded", () => {
   multiplicationBtn.addEventListener("click", () => {
     generateExpression("mult", difficulty(level))
   })
+  
 });
 
 function difficulty(level){
-  let randFactor
   switch (level) {
     case "1":
-      randFactor = 6;
+      levelInfo.randFactor = 6;
+      levelInfo.name = "Easy";
       break;
     case "2": 
-      randFactor = 11;
+      levelInfo.randFactor = 11;
+      levelInfo.name = "Harder";
       break;
     case "3":
-      randFactor = 21;
+      levelInfo.randFactor = 21;
+      levelInfo.name = "Hardest";
       break;
   }
-  return randFactor
+  return levelInfo
+}
+
+function renderLevel() {
+  levelDiv = document.querySelector(".level-value")
+  levelDiv.innerText = levelInfo.name
 }
 
 function generateExpression(operator, randFactor){
