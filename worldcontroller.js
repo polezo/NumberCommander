@@ -144,11 +144,20 @@ scene.add( light3 );
 
 //numbers Logic
 
-let myArray = [1,2,3,4,5,6,7,8,9,10]
+let myArray = []
+let solutionSpace
 
-function rand() { return myArray[Math.floor(Math.random() * myArray.length)]; }
+
+// function rand() { return myArray[Math.floor(Math.random() * myArray.length)]; }
+
+function getNumbersForEnemies(arr) {
+    let i = Math.floor(Math.random()*(arr.length - 1))
+    // arr.splice(i,1)
+    return myArray.splice(i,1)
+}
 
 function getBox(w, h, d) {
+let boxNumber = getNumbersForEnemies(myArray)[0]
 
 //make text mat with text
     var x = document.createElement("canvas");
@@ -162,7 +171,7 @@ function getBox(w, h, d) {
 
   xc.fillStyle = "green";
   xc.font = "60pt arial bold";
-  xc.fillText(`${rand()}`, 10, 64);
+  xc.fillText(`${boxNumber}`, 10, 64);
   var xm = new THREE.MeshPhongMaterial({ map: new THREE.Texture(x), transparent: true });
   xm.map.needsUpdate = true;
 
@@ -174,7 +183,9 @@ function getBox(w, h, d) {
 		xm 
   );
   //add in DomEvent Click Listener on the Number Enemies
+  if (boxNumber === solutionSpace) {
   domEvents.addEventListener(mesh, 'mousedown', onAttack, false);
+  }
 	return mesh;
 }
 
@@ -198,6 +209,7 @@ function getBoxGrid(amount, separationMultiplier) {
 }
 
 function getEnemies() {
+  generateExpression(operator, levelInfo)
   enemies = getBoxGrid(5,8.5);
   enemies.position.x = (Math.random()-2.4)*10;
   enemies.rotation.x = Math.PI/2;
@@ -279,8 +291,8 @@ var particleGeo = new THREE.Geometry();
 		depthWrite: false
 	});
 
-	var particleCount = 20000;
-	var particleDistance = 150;
+	var particleCount = 15000;
+	var particleDistance = 120;
 
 	for (var i=0; i<particleCount; i++) {
 		var posX = (Math.random() - 0.5) * particleDistance;

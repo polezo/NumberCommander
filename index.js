@@ -5,29 +5,34 @@ let levelInfo = {
   "name" : "Easy"
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  renderLevel()
+let operator = "add"
 
-  let levelSlider = document.querySelector("#level-slider")
-  levelSlider.addEventListener("input", () => {
-    level = event.currentTarget.value
-    setDifficulty(level)
-    renderLevel()
-  })
+document.addEventListener("DOMContentLoaded", () => {
+  // // renderLevel()
+
+  // // let levelSlider = document.querySelector("#level-slider")
+  // // levelSlider.addEventListener("input", () => {
+  // //   level = event.currentTarget.value
+  // //   setDifficulty(level)
+  // //   renderLevel()
+  // // })
 
   let additionBtn = document.querySelector("#addition")
   additionBtn.addEventListener('click', () => {
-    generateExpression("add", levelInfo)
+    operator = "add"
+    // generateExpression(operator, levelInfo)
   })
 
   let subtractionBtn = document.querySelector("#subtraction")
   subtractionBtn.addEventListener("click", () => {
-    generateExpression("sub", levelInfo)
+    operator = "sub"
+    // generateExpression("sub", levelInfo)
   })
 
   let multiplicationBtn = document.querySelector("#multiplication")
   multiplicationBtn.addEventListener("click", () => {
-    generateExpression("mult", levelInfo)
+    operator = "mult"
+    // generateExpression("mult", levelInfo)
   })
   
 });
@@ -72,6 +77,7 @@ function generateExpression(operator, levelInfo){
   }
   
   let solution = evaluate[operator]
+  solutionSpace = solution
   renderExpression(operator, num1, num2)
   generateNumbers(solution, levelInfo)
 }
@@ -101,7 +107,8 @@ function generateNumbers(solution, levelInfo){
     i++
   }
 
-  renderSolutionCards(numbersArray)
+  // renderSolutionCards(myArray)
+  myArray = numbersArray
 }
 
 function renderSolutionCards(numbersArray){
