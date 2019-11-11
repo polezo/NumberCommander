@@ -1,41 +1,53 @@
-let level = 0
+let level = "1"
 
 document.addEventListener("DOMContentLoaded", () => {
 
   let levelSlider = document.querySelector("#level-slider")
   levelSlider.addEventListener("input", () => {
-    console.log("initial level", level)
     level = event.currentTarget.value
-    console.log("new level: ", level)
-
   })
-
 
   let additionBtn = document.querySelector("#addition")
   additionBtn.addEventListener('click', () => {
-    generateExpression("add")
+    generateExpression("add", difficulty(level))
   })
 
   let subtractionBtn = document.querySelector("#subtraction")
   subtractionBtn.addEventListener("click", () => {
-    generateExpression("sub")
+    generateExpression("sub", difficulty(level))
   })
 
   let multiplicationBtn = document.querySelector("#multiplication")
   multiplicationBtn.addEventListener("click", () => {
-    generateExpression("mult")
+    generateExpression("mult", difficulty(level))
   })
 });
 
-function generateExpression(operator){
+function difficulty(level){
+  let randFactor
+  switch (level) {
+    case "1":
+      randFactor = 6;
+      break;
+    case "2": 
+      randFactor = 11;
+      break;
+    case "3":
+      randFactor = 21;
+      break;
+  }
+  return randFactor
+}
+
+function generateExpression(operator, randFactor){
   let expressionContainer = document.querySelector("#expression")
   expressionContainer.innerText = ""
 
-  let num1 = Math.floor(Math.random() * 11)
-  let num2 = Math.floor(Math.random() * 11)
+  let num1 = Math.floor(Math.random() * randFactor)
+  let num2 = Math.floor(Math.random() * randFactor)
 
   while ( operator === "sub" && num1 < num2 ){
-    num1 = Math.floor(Math.random() * 11)
+    num1 = Math.floor(Math.random() * randFactor)
   }
 
   let operationSymbol = {
@@ -54,17 +66,17 @@ function generateExpression(operator){
   
   let solution = evaluate[operator]
 
-  generateNumbers(solution)
+  generateNumbers(solution, difficulty(level))
 }
 
-function generateNumbers(solution){
+function generateNumbers(solution, randFactor){
   let numbersArray = []
   numbersArray.push(solution)
 
   let i = 0
   while (i < 4) {
     let num
-    num = Math.floor(Math.random()*20)
+    num = Math.floor(Math.random() * randFactor * 2)
     numbersArray.push(num)
     i++
   }
