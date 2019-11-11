@@ -152,6 +152,25 @@ scene.add( light3 );
 let myArray = []
 let solutionSpace
 
+function getBadHitMat(name) {
+  var x = document.createElement("canvas");
+  var xc = x.getContext("2d");
+  x.width = x.height = 128;
+  xc.shadowColor = "#000";
+  xc.shadowBlur = 7;
+
+  xc.fillStyle = "black";
+  xc.fillRect(0, 0, 128, 128);
+
+  xc.fillStyle = "red";
+  xc.font = "60pt arial bold";
+  xc.fillText(`${name}`, 10, 64);
+  var xm = new THREE.MeshPhongMaterial({ map: new THREE.Texture(x), transparent: true });
+  xm.map.needsUpdate = true;
+
+  return xm
+}
+
 
 // function rand() { return myArray[Math.floor(Math.random() * myArray.length)]; }
 
@@ -161,11 +180,13 @@ function getNumbersForEnemies(arr) {
     return myArray.splice(i,1)
 }
 
+let boxId = 1;
+
 function getBox(w, h, d) {
 let boxNumber = getNumbersForEnemies(myArray)[0]
 
 //make text mat with text
-    var x = document.createElement("canvas");
+  var x = document.createElement("canvas");
   var xc = x.getContext("2d");
   x.width = x.height = 128;
   xc.shadowColor = "#000";
@@ -189,7 +210,11 @@ let boxNumber = getNumbersForEnemies(myArray)[0]
   );
   //add in DomEvent Click Listener on the Number Enemies
   if (boxNumber === solutionSpace) {
-  domEvents.addEventListener(mesh, 'mousedown', onAttack, false);
+    domEvents.addEventListener(mesh, 'mousedown', onAttack, false);
+} else {
+    mesh.name = `${boxId}-${boxNumber}`
+    domEvents.addEventListener(mesh, 'mousedown', onFriendlyFire, false);
+    boxId++
   }
 	return mesh;
 }
@@ -272,6 +297,15 @@ function onAttack(event){
     currentShip.lookAt(event.target.getWorldPosition(pointOfIntersection))
     event.target.visible = false;
     addPoints()
+  }
+  
+function onFriendlyFire(event) {
+  currentShip.lookAt(event.target.getWorldPosition(pointOfIntersection))
+  
+  let name = event.target.name.split("-")[1] 
+
+  event.target.material = getBadHitMat(name);
+  
 }
 
 let lasersFired = false;

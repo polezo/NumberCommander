@@ -8,14 +8,14 @@ let levelInfo = {
 let operator = "add"
 
 document.addEventListener("DOMContentLoaded", () => {
-  // // renderLevel()
+  renderLevel()
 
-  // // let levelSlider = document.querySelector("#level-slider")
-  // // levelSlider.addEventListener("input", () => {
-  // //   level = event.currentTarget.value
-  // //   setDifficulty(level)
-  // //   renderLevel()
-  // // })
+  let levelSlider = document.querySelector("#level-slider")
+  levelSlider.addEventListener("input", () => {
+    level = event.currentTarget.value
+    setDifficulty(level)
+    renderLevel()
+  })
 
   let additionBtn = document.querySelector("#addition")
   additionBtn.addEventListener('click', () => {
