@@ -2,7 +2,12 @@ html, body {
     height: 100%;
     margin: 0px;
     /* overflow: hidden; */
+    font-family: 'Press Start 2P', cursive;
+    color:rgb(3, 182, 3);
+    background-color:black;
   }
+
+
 
 #webGl {
   position:absolute;
@@ -49,6 +54,7 @@ html, body {
   h5 {
     margin:3px;
     padding:3px;
+    color:white;
   }
 
   /* __________Slider CSS __________*/
@@ -61,7 +67,7 @@ html, body {
   height: 40;
   margin: 8px auto;
   letter-spacing: -.07em;
-  text-shadow: white 2px 2px 2px;
+ 
 }
 input[type="range"] {
   display: block;
@@ -102,7 +108,7 @@ input[type="range"]::-webkit-slider-thumb {
   } */
 
   .game-started {
-    color:green;
+    color:rgb(3, 182, 3);;
     font-size:2.4em;
     font-weight:bold;
   }
@@ -112,10 +118,60 @@ input[type="range"]::-webkit-slider-thumb {
   }
 
   #nextExp {
-    color:rgb(179, 161, 0);
+    color:yellow;
     font-size:1.8em;
   }
 
   .title-game-started {
     font-size:1.2em;
+    color:white;
   }
+  
+  .col {
+    border-right-style:dotted;
+    border-left-style:dotted;
+    border-color:rgb(3, 182, 3);
+  }
+
+  #points-div {
+   border:none;
+    
+  }
+
+  .row {
+    border-style:dotted;
+    border-color:rgb(3, 182, 3);
+  }
+
+  button {
+    background: black;
+    color:yellow;
+    border-style:solid;
+    border-color:yellow;
+    font-size: 1em;
+  }
+
+  button:hover {
+    color:rgb(3, 182, 3);
+    border-color:rgb(3, 182, 3);
+  }
+
+  #buttons {
+    border:none;
+  }
+
+  #nextExp {
+    border:none;
+  }
+
+ .blinking {
+  animation:blinkingText 1.5s infinite;
+  font-size:1.1em;
+ }
+
+ @keyframes blinkingText{
+  0%{     color:white;  }
+  50%{     color:white;  }
+  51%{color:transparent; }
+  100%{   color:transparent;   }
+}

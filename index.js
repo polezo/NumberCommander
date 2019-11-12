@@ -55,6 +55,7 @@ function startGame() {
   document.getElementById("buttons").classList.add("hidden")
   document.getElementById("nextExp").classList.remove("hidden")
   document.querySelector("#expression").classList.add("game-started")
+  document.querySelector("#expression").classList.remove("blinking")
   document.getElementById("title").classList.add("title-game-started")
 }
 

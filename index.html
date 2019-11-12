@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,18 +14,18 @@
         <div id="buttonHolder" class="row">
             <div class="hidden col my-auto" id="nextExp"><h2 id="next">Next:</h2></div>
             <div id="buttons" class="col my-auto">
-            <button id="addition">Addition</button>
-            <button id="subtraction">Subtraction</button>
-            <button id="multiplication">Multiplication</button>
+            <button id="addition">Add</button>
+            <button id="subtraction">Subtract</button>
+            <button id="multiplication">Multiply</button>
             <div id="level-wrapper">
                     <div class="level-value"></div>
                     <input id="level-slider" type="range" min="1" max="3" step="1" value="0">
                 </div></div>
             <div class="col">
             <h2 id="title">NumberCommander</h2>
-            <h5 id="expression">Select a Disipline to Start</h5>
+            <h5 id="expression" class="blinking">Select an Exercise Start</h5>
         </div>
-            <div class="col my-auto">
+            <div class="col my-auto" id="points-div">
             <h2 id="pointsCounter">Points: 0</h2>
         </div>
             </div>

@@ -66,6 +66,7 @@ rendererTwo.setAnimationLoop(()=>{
 let badGuys
 let badGuys2
 let badGuySpeed = 0.19
+let shakerTimer = new THREE.Clock({autoStart:false})
 
 renderer.setAnimationLoop(() => {
   if (resize(renderer)) {
@@ -118,8 +119,25 @@ renderer.setAnimationLoop(() => {
       }
 
     }
+
+    if (hit) {
+      // let posX = lastHit.position.x;
+      // let posY = lastHit.position.y;
+      // let posZ = lastHit.position.y;
+      lastHit.position.x += (Math.random()/4)
+      lastHit.position.y += (Math.random()/4)
+      lastHit.position.z += (Math.random()/4)
+
+      lastHit.position.x -= (Math.random()/4)
+      lastHit.position.y -= (Math.random()/4)
+      lastHit.position.z -= (Math.random()/4)
+        // stopShaking(posX,posY,posZ)
+    }
+
   renderer.render(scene,camera);
 });
+
+
 
 //i'm not really sure what this does but I think it's for helping mobile
 
@@ -339,14 +357,22 @@ function onAttack(event){
   }
  
  //changeColor to red on bad hit
+let hit = false;
+let lastHit
+
+
 
 function onFriendlyFire(event) {
   currentShip.lookAt(event.target.getWorldPosition(pointOfIntersection))
   
   let name = event.target.name.split("-")[1] 
-
+  lastHit = event.target
   event.target.material = getNumberMat(name,"red");
-  
+
+  hit = true;
+
+  setTimeout(() => hit = false, 300);
+
 }
 
 let lasersFired = false;
@@ -410,5 +436,6 @@ var particleGeo = new THREE.Geometry();
     document.getElementById("nextExp").classList.add("hidden")
     document.querySelector("#expression").innerText = "Select a Disipline to Start"
     document.querySelector("#expression").classList.remove("game-started")
+    document.querySelector("#expression").classList.add("blinking")
     document.getElementById("title").classList.remove("title-game-started")
   }
