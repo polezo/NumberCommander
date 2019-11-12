@@ -26,6 +26,15 @@
             <h5 id="expression" class="blinking">Select an Exercise Start</h5>
         </div>
             <div class="col my-auto" id="points-div">
+        <form id="login-form">
+            <label for="username">Username: </label>
+            <input type="text" name="username">
+            <input type="submit" value="Login">
+        </form>
+        <form id="logout-button" style="display: none">
+            <input type="submit" value="Logout">
+        </form>
+        <div class="col my-auto">
             <h2 id="pointsCounter">Points: 0</h2>
         </div>
             </div>
@@ -38,6 +47,7 @@
 <script src="./three.js"></script>
 <script src="./GLTFLoader.js"></script>
 <script src="./worldcontroller.js"></script>
+<script src="./login.js"></script>
 <link rel="stylesheet" href="./worldstyle.css">
 </html>
 
