@@ -41,8 +41,7 @@ html, body {
   }
 
   h2 {
-    padding: 5px;
-    margin:5px;
+    margin:3px;
   }
 
   h5 {
@@ -55,11 +54,10 @@ html, body {
   border-bottom: 4px dashed #bdc3c7;
   text-align: center;
   font-weight: bold;
-  font-size: 2em;
+  font-size: 1.2em;
   width: 300px; 
-  height: 50px;
-  line-height: 60px;
-  margin: 10px auto;
+  height: 40;
+  margin: 8px auto;
   letter-spacing: -.07em;
   text-shadow: white 2px 2px 2px;
 }
@@ -92,4 +90,15 @@ input[type="range"]::-webkit-slider-thumb {
   }
   /* __________End Slider CSS__________ */
 
-  ]
+  /* #pointsCounter {
+    float:right;
+    padding-right:10%;
+  } */
+
+  /* #level-wrapper {
+    float:left;
+  } */
+
+  .game-started {
+    color:green;
+  }

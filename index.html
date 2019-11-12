@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -8,20 +9,25 @@
 
 </head>
 <body>
-        <div id="buttonHolder">
-                <h2>Welcome to NumberCommander</h2>
-                <h5>Select a Disipline to Start</h5>
+    <div class="container-fluid">
+        <div id="buttonHolder" class="row">
+            <div class="col my-auto">
             <button id="addition">Addition</button>
             <button id="subtraction">Subtraction</button>
             <button id="multiplication">Multiplication</button>
-            <div id="expression"></div>
-            <div id="pointsCounter">0</div>
-            </div>
-
             <div id="level-wrapper">
                     <div class="level-value"></div>
                     <input id="level-slider" type="range" min="1" max="3" step="1" value="0">
-                </div>
+                </div></div>
+            <div class="col">
+            <h2>Welcome to NumberCommander</h2>
+            <h5 id="expression">Select a Disipline to Start</h5>
+        </div>
+            <div class="col my-auto">
+            <h2 id="pointsCounter">Points: 0</h2>
+        </div>
+            </div>
+        </div>
     <div id="webGl"></div>
 
 </body>

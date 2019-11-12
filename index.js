@@ -19,41 +19,54 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let additionBtn = document.querySelector("#addition")
   additionBtn.addEventListener('click', () => {
+    removeLevelWrapper()
     operator = "add"
-    playing =true;
     points = 0;
     if (badGuys) {
       scene.remove(badGuys)
+      scene.remove(badGuys2)
     }
-    badGuys = getEnemies()
+    badGuys = getEnemies(32)
+    badGuys2 = getEnemies(100)
+    playing =true;
     // generateExpression(operator, levelInfo)
   })
 
   let subtractionBtn = document.querySelector("#subtraction")
   subtractionBtn.addEventListener("click", () => {
+    removeLevelWrapper()
     operator = "sub"
-    playing = true;
     points = 0;
     if (badGuys) {
       scene.remove(badGuys)
+      scene.remove(badGuys2)
     }
-    badGuys = getEnemies()
+    badGuys = getEnemies(32)
+    badGuys2 = getEnemies(100)
+    playing = true;
     // generateExpression("sub", levelInfo)
   })
 
   let multiplicationBtn = document.querySelector("#multiplication")
   multiplicationBtn.addEventListener("click", () => {
-    playing = true;
+    removeLevelWrapper()
     points = 0;
     operator = "mult"
     if (badGuys) {
       scene.remove(badGuys)
+      scene.remove(badGuys2)
     }
-    badGuys = getEnemies()
+    badGuys = getEnemies(32)
+    badGuys2 = getEnemies(100)
+    playing = true;
     // generateExpression("mult", levelInfo)
   })
   
 });
+
+function removeLevelWrapper() {
+  document.getElementById("level-wrapper").remove()
+}
 
 function setDifficulty(level){
   switch (level) {
@@ -96,11 +109,12 @@ function generateExpression(operator, levelInfo){
   
   let solution = evaluate[operator]
   solutionSpace = solution
-  renderExpression(operator, num1, num2)
   generateNumbers(solution, levelInfo)
+  let arr = [operator, num1, num2];
+  return arr;
 }
 
-function renderExpression(operator, num1, num2){
+function renderExpression(arr){
   let expressionContainer = document.querySelector("#expression")
   expressionContainer.innerText = ""
 
@@ -110,7 +124,8 @@ function renderExpression(operator, num1, num2){
     "mult": "*"
   }
 
-  expressionContainer.append(`${num1} ${operationSymbol[operator]} ${num2}`)
+  expressionContainer.append(`${arr[1]} ${operationSymbol[arr[0]]} ${arr[2]}`)
+  expressionContainer.classList.add("game-started")
 }
 
 function generateNumbers(solution, levelInfo){

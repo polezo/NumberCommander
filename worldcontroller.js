@@ -35,7 +35,7 @@ document.getElementById("webGl").appendChild(canvasTwo);
 
 let playing = false;
 
-//ANIMATION LOOPs
+//ANIMATION LOOPS
 
 //stars animation loop
 
@@ -49,8 +49,8 @@ rendererTwo.setAnimationLoop(()=>{
   var particleSystem = sceneTwo.getObjectByName('particleSystem');
 	particleSystem.geometry.vertices.forEach(particle => {
     particle.z += 0.3;
-    if (particle.z >50) {
-      particle.z = -50
+    if (particle.z >40) {
+      particle.z = -10
     }
   })
   //required logic to animate individual stars, may  want to optimize
@@ -64,7 +64,8 @@ rendererTwo.setAnimationLoop(()=>{
 //ship/enemies animation loop
 
 let badGuys
-let badGuySpeed = 0.16
+let badGuys2
+let badGuySpeed = 0.19
 
 renderer.setAnimationLoop(() => {
   if (resize(renderer)) {
@@ -87,12 +88,33 @@ renderer.setAnimationLoop(() => {
   //badguysAnimate
   
       badGuys.position.z +=badGuySpeed;
+      
+      if (badGuys.position.z > 15) {
+        scene.remove(badGuys);
+        badGuys = getEnemies(100); 
+        renderExpression(expressionTwo); 
 
-      if (badGuys.position.z > 14.6) {
-      scene.remove(badGuys);
-      badGuys = getEnemies()
-      console.log("bad guys expired")
+        //update active blocks from yellow to green
+        badGuys2.children.forEach(child => {
+          if (child.type === "Mesh") {
+            child.material = getNumberMat(child.name.split("-")[1],"green")}
+        })
+        }
+      
+      badGuys2.position.z +=badGuySpeed;
+      if (badGuys2.position.z > 15) {
+        scene.remove(badGuys2);
+        badGuys2 = getEnemies(100);
+        renderExpression(expression1);
+        
+        //update active blocks from yellow to green
+        badGuys.children.forEach(child => {
+          if (child.type === "Mesh") {
+            child.material = getNumberMat(child.name.split("-")[1],"green")}
+        })
+
       }
+
     }
   renderer.render(scene,camera);
 });
@@ -130,7 +152,7 @@ function onMouseMove(event){
   currentShip.lookAt(pointOfIntersection);
 }
 
-//some lights
+//some lights for the ship
 
 var light = new THREE.PointLight( 0xfffff, 1 );
 light.position.set( 0, 7, -3 );
@@ -147,12 +169,14 @@ scene.add( light3 );
 
 //create Box enemies --some game logic will need to be hooked in here
 
-//numbers Logic
+//stuff for holding game logic
 
 let myArray = []
 let solutionSpace
 
-function getBadHitMat(name) {
+//function for changing color of numbers on cubes
+
+function getNumberMat(name,color) {
   var x = document.createElement("canvas");
   var xc = x.getContext("2d");
   x.width = x.height = 128;
@@ -162,7 +186,7 @@ function getBadHitMat(name) {
   xc.fillStyle = "black";
   xc.fillRect(0, 0, 128, 128);
 
-  xc.fillStyle = "red";
+  xc.fillStyle = `${color}`;
   xc.font = "60pt arial bold";
   xc.fillText(`${name}`, 10, 64);
   var xm = new THREE.MeshPhongMaterial({ map: new THREE.Texture(x), transparent: true });
@@ -171,8 +195,7 @@ function getBadHitMat(name) {
   return xm
 }
 
-
-// function rand() { return myArray[Math.floor(Math.random() * myArray.length)]; }
+// function to get numbers for cubes
 
 function getNumbersForEnemies(arr) {
     let i = Math.floor(Math.random()*(arr.length - 1))
@@ -180,9 +203,11 @@ function getNumbersForEnemies(arr) {
     return myArray.splice(i,1)
 }
 
+//box ID incrementer
+
 let boxId = 1;
 
-function getBox(w, h, d) {
+function getBox(w, h, d,distance) {
 let boxNumber = getNumbersForEnemies(myArray)[0]
 
 //make text mat with text
@@ -195,38 +220,49 @@ let boxNumber = getNumbersForEnemies(myArray)[0]
   xc.fillStyle = "black";
   xc.fillRect(0, 0, 128, 128);
 
-  xc.fillStyle = "green";
+  //set color to green for block start if game just started
+
+  if (distance > 50) {
+    color = "yellow";
+  } else {
+    color = "green";
+  }
+  xc.fillStyle = `${color}`;
   xc.font = "60pt arial bold";
   xc.fillText(`${boxNumber}`, 10, 64);
   var xm = new THREE.MeshPhongMaterial({ map: new THREE.Texture(x), transparent: true });
   xm.map.needsUpdate = true;
 
-  //make individualk box geomentry
+  //make individual box geomentry
 
 	var geometry = new THREE.BoxGeometry(w, h, d);
 	var mesh = new THREE.Mesh(
 		geometry,
 		xm 
   );
+
+  //give name to box to identify it/change material elsewhere
+
+  mesh.name = `${boxId}-${boxNumber}`
+
   //add in DomEvent Click Listener on the Number Enemies
   if (boxNumber === solutionSpace) {
     domEvents.addEventListener(mesh, 'mousedown', onAttack, false);
-} else {
-    mesh.name = `${boxId}-${boxNumber}`
+  } else {
     domEvents.addEventListener(mesh, 'mousedown', onFriendlyFire, false);
-    boxId++
   }
+  boxId++
 	return mesh;
 }
 
 //make group of enemies
 
-function getBoxGrid(amount, separationMultiplier) {
+function getBoxGrid(amount, separationMultiplier,distance) {
 	var group = new THREE.Group();
 
 	for (var i=0; i<amount; i++) {
-		var obj = getBox(3, 1.5, 3);
-		obj.position.x = (i * separationMultiplier)*(Math.random()+0.42);
+		var obj = getBox(3, 1.5,3,distance);
+		obj.position.x = (i * 6.3)*(Math.random()+1.2);
     obj.position.y = (i *  (separationMultiplier/4))*Math.random();
     obj.position.z = (i * (separationMultiplier/5))*Math.random();
 		group.add(obj);
@@ -238,25 +274,39 @@ function getBoxGrid(amount, separationMultiplier) {
 	return group;
 }
 
-function getEnemies() {
-  generateExpression(operator, levelInfo)
-  enemies = getBoxGrid(5,8.5);
+let expressionToggle = true;
+let expression1 = []
+let expressionTwo = []
+
+function getEnemies(distance) {
+  if (expressionToggle) {
+    expression1 = generateExpression(operator, levelInfo)
+    if (distance < 50) {
+    renderExpression(expression1);
+    }
+    expressionToggle = !expressionToggle
+  } else {
+    expressionTwo = generateExpression(operator, levelInfo)
+    expressionToggle = !expressionToggle
+  }
+  enemies = getBoxGrid(5,8.5,distance);
   enemies.position.x = (Math.random()-2.8)*10;
   enemies.rotation.x = Math.PI/2;
-  enemies.position.z -=20;
+  enemies.position.z -=distance;
   enemies.position.y +=7;
   scene.add(enemies);
   
+  //lights for enemy group
+
   let light = new THREE.PointLight( 0xfbeee4, 1 );
   light.position.set( 2, 7, 0 );
   let light2 = new THREE.PointLight( 0xfbeee4, 1 );
   light2.position.set( 10, 7, 0 );
   enemies.add( light );
   enemies.add( light2 );
-  console.log(enemies.children);
+  
   return enemies;
 }
-
 
 //define vars to make ship and lasers globally accessible (not best practice, should set names for them instead)
 
@@ -279,7 +329,7 @@ function onLoad ( shipGltf ) {
   model.position.set(0,-4.2,5)
   currentShip = model;
 
-
+//load lasers
 
   var loader = new THREE.ObjectLoader();
   loader.load(
@@ -298,25 +348,31 @@ function onAttack(event){
     event.target.visible = false;
     addPoints()
   }
-  
+ 
+ //changeColor to red on bad hit
+
 function onFriendlyFire(event) {
   currentShip.lookAt(event.target.getWorldPosition(pointOfIntersection))
   
   let name = event.target.name.split("-")[1] 
 
-  event.target.material = getBadHitMat(name);
+  event.target.material = getNumberMat(name,"red");
   
 }
 
 let lasersFired = false;
 
+//activate laser animation
+
 function pewPew () {
   lasersFired = true;
 }
 
+//load the actual model
+
 loadShip('Lo_poly_Spaceship_01_by_Liz_Reddington.gltf')
 
-//create stars particle system for scene two
+//create stars particle system for star scene (scene two)
 
 var particleGeo = new THREE.Geometry();
 	var particleMat = new THREE.PointsMaterial({
@@ -328,8 +384,8 @@ var particleGeo = new THREE.Geometry();
 		depthWrite: false
 	});
 
-	var particleCount = 10000;
-	var particleDistance = 80;
+	var particleCount = 6000;
+	var particleDistance = 48;
 
 	for (var i=0; i<particleCount; i++) {
 		var posX = (Math.random() - 0.5) * particleDistance;
@@ -347,12 +403,14 @@ var particleGeo = new THREE.Geometry();
 	particleSystem.name = 'particleSystem';
   sceneTwo.add(particleSystem);
   
+//POINTS
+
   points = 0;
 
   function addPoints() {
     if (points < 10) {
     points++
-    document.getElementById("pointsCounter").innerText = points
+    document.getElementById("pointsCounter").innerText = `Points: ${points}`
     } else {
       playing = false;
     }
