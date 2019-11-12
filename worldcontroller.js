@@ -92,7 +92,8 @@ renderer.setAnimationLoop(() => {
       if (badGuys.position.z > 15) {
         scene.remove(badGuys);
         badGuys = getEnemies(100); 
-        renderExpression(expressionTwo); 
+        renderExpression(expressionTwo);
+        renderNext(expression1); 
 
         //update active blocks from yellow to green
         badGuys2.children.forEach(child => {
@@ -106,6 +107,7 @@ renderer.setAnimationLoop(() => {
         scene.remove(badGuys2);
         badGuys2 = getEnemies(100);
         renderExpression(expression1);
+        renderNext(expressionTwo);
         
         //update active blocks from yellow to green
         badGuys.children.forEach(child => {
@@ -274,21 +276,8 @@ function getBoxGrid(amount, separationMultiplier,distance) {
 	return group;
 }
 
-let expressionToggle = true;
-let expression1 = []
-let expressionTwo = []
-
 function getEnemies(distance) {
-  if (expressionToggle) {
-    expression1 = generateExpression(operator, levelInfo)
-    if (distance < 50) {
-    renderExpression(expression1);
-    }
-    expressionToggle = !expressionToggle
-  } else {
-    expressionTwo = generateExpression(operator, levelInfo)
-    expressionToggle = !expressionToggle
-  }
+  toggleExpression()
   enemies = getBoxGrid(5,8.5,distance);
   enemies.position.x = (Math.random()-2.8)*10;
   enemies.rotation.x = Math.PI/2;
@@ -384,8 +373,8 @@ var particleGeo = new THREE.Geometry();
 		depthWrite: false
 	});
 
-	var particleCount = 6000;
-	var particleDistance = 48;
+	var particleCount = 5800;
+	var particleDistance = 53;
 
 	for (var i=0; i<particleCount; i++) {
 		var posX = (Math.random() - 0.5) * particleDistance;
@@ -408,10 +397,18 @@ var particleGeo = new THREE.Geometry();
   points = 0;
 
   function addPoints() {
-    if (points < 10) {
     points++
     document.getElementById("pointsCounter").innerText = `Points: ${points}`
-    } else {
-      playing = false;
-    }
+    if (points === 6) {
+      youWin()
+    } 
+  }
+
+  function youWin() {
+    playing = false;
+    document.getElementById("buttons").classList.remove("hidden")
+    document.getElementById("nextExp").classList.add("hidden")
+    document.querySelector("#expression").innerText = "Select a Disipline to Start"
+    document.querySelector("#expression").classList.remove("game-started")
+    document.getElementById("title").classList.remove("title-game-started")
   }

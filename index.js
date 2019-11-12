@@ -19,64 +19,54 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let additionBtn = document.querySelector("#addition")
   additionBtn.addEventListener('click', () => {
-    removeLevelWrapper()
     operator = "add"
-    points = 0;
-    if (badGuys) {
-      scene.remove(badGuys)
-      scene.remove(badGuys2)
-    }
-    badGuys = getEnemies(32)
-    badGuys2 = getEnemies(100)
-    playing =true;
+    startGame()
     // generateExpression(operator, levelInfo)
   })
 
   let subtractionBtn = document.querySelector("#subtraction")
   subtractionBtn.addEventListener("click", () => {
-    removeLevelWrapper()
     operator = "sub"
-    points = 0;
-    if (badGuys) {
-      scene.remove(badGuys)
-      scene.remove(badGuys2)
-    }
-    badGuys = getEnemies(32)
-    badGuys2 = getEnemies(100)
-    playing = true;
+    startGame()
     // generateExpression("sub", levelInfo)
   })
 
   let multiplicationBtn = document.querySelector("#multiplication")
   multiplicationBtn.addEventListener("click", () => {
-    removeLevelWrapper()
-    points = 0;
     operator = "mult"
-    if (badGuys) {
-      scene.remove(badGuys)
-      scene.remove(badGuys2)
-    }
-    badGuys = getEnemies(32)
-    badGuys2 = getEnemies(100)
-    playing = true;
+    startGame()
     // generateExpression("mult", levelInfo)
   })
   
 });
 
-function removeLevelWrapper() {
-  document.getElementById("level-wrapper").remove()
+function startGame() {
+  expressionToggle = true;
+  if (badGuys) {
+    scene.remove(badGuys)
+    scene.remove(badGuys2)
+  }
+  badGuys = getEnemies(32)
+  badGuys2 = getEnemies(100)
+  renderExpression(expression1);
+  renderNext(expressionTwo);
+  playing = true;
+  points = 0;
+  document.getElementById("buttons").classList.add("hidden")
+  document.getElementById("nextExp").classList.remove("hidden")
+  document.querySelector("#expression").classList.add("game-started")
+  document.getElementById("title").classList.add("title-game-started")
 }
 
 function setDifficulty(level){
   switch (level) {
     case "1":
-      levelInfo.randFactor = 6;
+      levelInfo.randFactor = 7;
       levelInfo.name = "Easy";
       break;
 
     case "2": 
-      levelInfo.randFactor = 11;
+      levelInfo.randFactor = 14;
       levelInfo.name = "Harder";
       break;
 
@@ -94,11 +84,11 @@ function renderLevel() {
 }
 
 function generateExpression(operator, levelInfo){
-  let num1 = Math.floor(Math.random() * levelInfo.randFactor)
-  let num2 = Math.floor(Math.random() * levelInfo.randFactor)
+  let num1 = Math.ceil(Math.random() * levelInfo.randFactor)
+  let num2 = Math.ceil(Math.random() * levelInfo.randFactor)
 
   while ( operator === "sub" && num1 < num2 ){
-    num1 = Math.floor(Math.random() * levelInfo.randFactor)
+    num1 = Math.ceil(Math.random() * levelInfo.randFactor)
   }
 
   let evaluate = {
@@ -114,19 +104,28 @@ function generateExpression(operator, levelInfo){
   return arr;
 }
 
+let operationSymbol = {
+  "add": "+",
+  "sub": "-",
+  "mult": "*"
+}
+
 function renderExpression(arr){
   let expressionContainer = document.querySelector("#expression")
   expressionContainer.innerText = ""
 
-  let operationSymbol = {
-    "add": "+",
-    "sub": "-",
-    "mult": "*"
-  }
-
   expressionContainer.append(`${arr[1]} ${operationSymbol[arr[0]]} ${arr[2]}`)
-  expressionContainer.classList.add("game-started")
+  
 }
+
+function renderNext(arr) {
+  let nextContainer = document.querySelector("#nextExp")
+  nextContainer.innerText = ""
+
+  nextContainer.append(`Next: ${arr[1]} ${operationSymbol[arr[0]]} ${arr[2]}`)
+  
+}
+
 
 function generateNumbers(solution, levelInfo){
   let numbersArray = []
@@ -152,4 +151,18 @@ function renderSolutionCards(numbersArray){
     card.innerText = numbersArray[i]
     i++
   })
+}
+
+let expressionToggle = true;
+let expression1 = []
+let expressionTwo = []
+
+function toggleExpression() {
+  if (expressionToggle) {
+    expression1 = generateExpression(operator, levelInfo)
+    expressionToggle = !expressionToggle
+  } else {
+    expressionTwo = generateExpression(operator, levelInfo)
+    expressionToggle = !expressionToggle
+  }
 }

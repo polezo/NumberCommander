@@ -11,7 +11,8 @@
 <body>
     <div class="container-fluid">
         <div id="buttonHolder" class="row">
-            <div class="col my-auto">
+            <div class="hidden col my-auto" id="nextExp"><h2 id="next">Next:</h2></div>
+            <div id="buttons" class="col my-auto">
             <button id="addition">Addition</button>
             <button id="subtraction">Subtraction</button>
             <button id="multiplication">Multiplication</button>
@@ -20,7 +21,7 @@
                     <input id="level-slider" type="range" min="1" max="3" step="1" value="0">
                 </div></div>
             <div class="col">
-            <h2>Welcome to NumberCommander</h2>
+            <h2 id="title">NumberCommander</h2>
             <h5 id="expression">Select a Disipline to Start</h5>
         </div>
             <div class="col my-auto">
