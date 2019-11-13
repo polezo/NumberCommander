@@ -1,11 +1,10 @@
 let level = "1"
-
 let levelInfo = {
   "randFactor": 6,
   "name" : "Easy"
 }
-
 let operator = "add"
+let gameId
 
 document.addEventListener("DOMContentLoaded", () => {
   renderLevel()
@@ -48,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (loggedIn) {
       createNewGame(operator)
     }
-    
+
     startGame()
     // generateExpression("mult", levelInfo)
   })
@@ -70,7 +69,10 @@ function createNewGame(operator){
   body: JSON.stringify(data)
   })
   .then( response => response.json() )
-  .then( newGame => console.log(newGame) )
+  .then( function(newGame){
+    gameId = newGame.id
+    console.log(newGame)
+  } )
 }
 
 function startGame() {
