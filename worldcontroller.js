@@ -425,10 +425,19 @@ var particleGeo = new THREE.Geometry();
   function addPoints() {
     points++
     persistPoints(points)
-    document.getElementById("pointsCounter").innerText = `Points: ${points}`
-    if (points === 6) {
-      youWin()
-    } 
+
+    //###Change to pesimistic rendering
+
+    // document.getElementById("pointsCounter").innerText = `Points: ${points}` 
+
+    //###problem here: User is winning before the points are being persisted, so the stats are updating with one fewer point than the user currently has, even though DOM is being updated, i.e., if user wins at 6 points, DOM updates to show 6, but stats page shows 5 points
+
+    //###Solution: move the check win condition to persitPoints() and check using the response after points have been persisted
+
+    //###MOVED THIS:
+    // if (points === 6) {
+    //   youWin()
+    // } 
   }
 
   function youWin() {
