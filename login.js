@@ -3,22 +3,24 @@ let currentUsername
 let currentUserId
 
 document.addEventListener("DOMContentLoaded", () => {
-  getLoginForm().addEventListener("submit", submitLogin)
+  loginForm().addEventListener("submit", submitLogin)
 
-  getLogOutBtn().addEventListener("click", logOut)
+  logOutBtn().addEventListener("click", logOut)
 });
 
-function getLoginForm(){
+function loginForm(){
   return document.querySelector("#login-form")
 }
 
-function getLogOutBtn(){
+function logOutBtn(){
   return document.querySelector("#logout-button")
 }
 
-function getPointsContainer(){
+function pointsContainer(){
   return document.querySelector("#points-container")
 }
+
+
 
 function submitLogin(event){
   event.preventDefault();
@@ -43,9 +45,10 @@ function loginHandler(user){
   currentUsername = user.username
   currentUserId = user.id
 
-  getLoginForm().style.display = "none"
-  getLogOutBtn().style.display = "inline-block"
+  loginForm().style.display = "none"
+  logOutBtn().style.display = "inline-block"
   displayPointsCounter()
+  debugger
   console.log(loggedIn, currentUsername, currentUserId)
 }
 
@@ -56,13 +59,13 @@ function logOut(){
   currentUserId = ""
   gameId = ""
 
-  getPointsContainer().innerHTML=""
-  getLogOutBtn().style.display = "none"
-  getLoginForm().style.display = "inline-block"
+  pointsContainer().innerHTML=""
+  logOutBtn().style.display = "none"
+  loginForm().style.display = "inline-block"
 }
 
 function displayPointsCounter(){
-  getPointsContainer().innerHTML=""
+  pointsContainer().innerHTML=""
   
   let greetingP = document.createElement("p")
   greetingP.innerText = `GREETINGS COMMANDER ${currentUsername.toUpperCase()}`
@@ -71,6 +74,15 @@ function displayPointsCounter(){
   pointsH2.id = "pointsCounter"
   pointsH2.innerText = "Points: 0"
 
-  getPointsContainer().append(greetingP, pointsH2)
+  pointsContainer().append(greetingP, pointsH2)
 }
 
+function renderUserStats(user){
+  /*
+  user has a key `games` which is an array of objects. 
+  iterate 
+  
+  */
+  let additionPoints
+  let sub
+}
