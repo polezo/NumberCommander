@@ -424,6 +424,7 @@ var particleGeo = new THREE.Geometry();
 
   function addPoints() {
     points++
+    persistPoints(points)
     document.getElementById("pointsCounter").innerText = `Points: ${points}`
     if (points === 6) {
       youWin()

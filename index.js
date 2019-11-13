@@ -162,7 +162,6 @@ function renderNext(arr) {
   
 }
 
-
 function generateNumbers(solution, levelInfo){
   let numbersArray = []
   numbersArray.push(solution)
@@ -201,4 +200,18 @@ function toggleExpression() {
     expressionTwo = generateExpression(operator, levelInfo)
     expressionToggle = !expressionToggle
   }
+}
+
+function persistPoints(points){
+  data = { score: points }
+  
+  fetch(`http://localhost:3000/games/${gameId}`, {
+    method: "PATCH", 
+    headers: {
+      "Content-Type" : "application/json"
+    }, 
+    body: JSON.stringify(data)
+  })
+    .then( response => response.json() )
+    .then( updatedGame => console.log(updatedGame) )
 }
