@@ -264,9 +264,11 @@ let boxNumber = getNumbersForEnemies(myArray)[0]
   //give name to box to identify it/change material elsewhere
 
   mesh.name = `${boxId}-${boxNumber}`
+  
 
   //add in DomEvent Click Listener on the Number Enemies
   if (boxNumber === solutionSpace) {
+    
     domEvents.addEventListener(mesh, 'mousedown', onAttack, false);
   } else {
     domEvents.addEventListener(mesh, 'mousedown', onFriendlyFire, false);
@@ -350,9 +352,16 @@ function onLoad ( shipGltf ) {
 
 //fire lasers
 
+
 function onAttack(event){
-    currentShip.lookAt(event.target.getWorldPosition(pointOfIntersection))
-    event.target.visible = false;
+
+  let kaboomText = new THREE.SpriteSheetTexture('kaboom.png', 8, 6, 18, 64);
+  kaboomMat = new THREE.SpriteMaterial( {map:kaboomText});
+  kaboomSprite = new THREE.Sprite(kaboomMat);
+  kaboomSprite.geometry.scale(25,25,25)
+    event.target.add(kaboomSprite);
+    event.target.material.visible = false;
+  
     addPoints()
   }
  
@@ -439,3 +448,57 @@ var particleGeo = new THREE.Geometry();
     document.querySelector("#expression").classList.add("blinking")
     document.getElementById("title").classList.remove("title-game-started")
   }
+
+  THREE.SpriteSheetTexture = function(imageURL, framesX, framesY, frameDelay, _endFrame) {
+
+    var timer, frameWidth, frameHeight,
+            x = 0, y = 0, count = 0, startFrame = 0, 
+            endFrame = _endFrame || framesX * framesY,
+            
+            canvas = document.createElement('canvas'),
+            ctx = canvas.getContext('2d'),
+            canvasTexture = new THREE.CanvasTexture(canvas),
+            img = new Image();
+
+    img.crossOrigin = "Anonymous"
+    img.onload = function(){
+        canvas.width = frameWidth = img.width / framesX;
+        canvas.height = frameHeight = img.height / framesY;
+        timer = setInterval(nextFrame, frameDelay);
+    }
+    img.src = imageURL;
+
+    function nextFrame() {
+        count++;
+
+        // if(count >= endFrame ) {
+        //     count = 0;
+        // };
+
+        x = (count % framesX) * frameWidth;
+        y = ((count / framesX)|0) * frameHeight;
+
+        ctx.clearRect(0, 0, frameWidth, frameHeight);
+        ctx.drawImage(img, x, y, frameWidth, frameHeight, 0, 0, frameWidth, frameHeight);
+
+        canvasTexture.needsUpdate = true;
+    }
+
+    return canvasTexture;
+}
+
+
+function aniInit() {
+let kaboomText = new THREE.SpriteSheetTexture('kaboom.png', 8, 6, 18, 64);
+ kaboomMat = new THREE.SpriteMaterial( {map:kaboomText});
+ kaboomSprite = new THREE.Sprite(kaboomMat);
+ kaboomSprite.geometry.scale(20,20,20)
+
+scene.add(kaboomSprite)
+// kaboom = scene.children[scene.children.length-1]
+// kaboom.position.y = -500;
+}
+
+
+aniInit();
+
