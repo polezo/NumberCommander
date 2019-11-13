@@ -66,7 +66,7 @@ rendererTwo.setAnimationLoop(()=>{
 let badGuys
 let badGuys2
 let badGuySpeed = 0.19
-let shakerTimer = new THREE.Clock({autoStart:false})
+// let shakerTimer = new THREE.Clock({autoStart:false})
 
 renderer.setAnimationLoop(() => {
   if (resize(renderer)) {
@@ -361,7 +361,7 @@ function onAttack(event){
   kaboomSprite.geometry.scale(25,25,25)
     event.target.add(kaboomSprite);
     event.target.material.visible = false;
-  
+  setTimeout(()=>pop.play(),75)
     addPoints()
   }
  
@@ -369,6 +369,9 @@ function onAttack(event){
 let hit = false;
 let lastHit
 
+// function playPop(){
+//   pop.play()
+// }
 
 
 function onFriendlyFire(event) {
@@ -389,6 +392,7 @@ let lasersFired = false;
 //activate laser animation
 
 function pewPew () {
+  lzrSnd.play()
   lasersFired = true;
 }
 
@@ -510,6 +514,9 @@ scene.add(kaboomSprite)
 // kaboom.position.y = -500;
 }
 
-
 aniInit();
+
+let lzrSnd = new Audio("spaceGun.wav");
+let pop = new Audio("explode.wav");
+
 
