@@ -1,11 +1,10 @@
 let level = "1"
-
 let levelInfo = {
   "randFactor": 6,
   "name" : "Easy"
 }
-
 let operator = "add"
+let gameId
 
 document.addEventListener("DOMContentLoaded", () => {
   renderLevel()
@@ -20,6 +19,11 @@ document.addEventListener("DOMContentLoaded", () => {
   let additionBtn = document.querySelector("#addition")
   additionBtn.addEventListener('click', () => {
     operator = "add"
+
+    if (loggedIn) {
+      createNewGame(operator)
+    }
+
     startGame()
     // generateExpression(operator, levelInfo)
   })
@@ -27,6 +31,11 @@ document.addEventListener("DOMContentLoaded", () => {
   let subtractionBtn = document.querySelector("#subtraction")
   subtractionBtn.addEventListener("click", () => {
     operator = "sub"
+
+    if (loggedIn) {
+      createNewGame(operator)
+    }
+
     startGame()
     // generateExpression("sub", levelInfo)
   })
@@ -34,11 +43,37 @@ document.addEventListener("DOMContentLoaded", () => {
   let multiplicationBtn = document.querySelector("#multiplication")
   multiplicationBtn.addEventListener("click", () => {
     operator = "mult"
+
+    if (loggedIn) {
+      createNewGame(operator)
+    }
+
     startGame()
     // generateExpression("mult", levelInfo)
   })
   
 });
+
+function createNewGame(operator){
+  let data = {
+    user_id: currentUserId,
+    game_type: operator,
+    score: 0
+  }
+  
+  fetch('http://localhost:3000/games', {
+  method: "POST", 
+  headers: {
+    "Content-Type" : "application/json"
+  }, 
+  body: JSON.stringify(data)
+  })
+  .then( response => response.json() )
+  .then( function(newGame){
+    gameId = newGame.id
+    console.log(newGame)
+  } )
+}
 
 function startGame() {
   expressionToggle = true;
@@ -127,7 +162,6 @@ function renderNext(arr) {
   
 }
 
-
 function generateNumbers(solution, levelInfo){
   let numbersArray = []
   numbersArray.push(solution)
@@ -166,4 +200,23 @@ function toggleExpression() {
     expressionTwo = generateExpression(operator, levelInfo)
     expressionToggle = !expressionToggle
   }
+}
+
+function persistPoints(points){
+  data = { score: points }
+  
+  fetch(`http://localhost:3000/games/${gameId}`, {
+    method: "PATCH", 
+    headers: {
+      "Content-Type" : "application/json"
+    }, 
+    body: JSON.stringify(data)
+  })
+    .then( response => response.json() )
+    .then( function(updatedGame){
+      document.getElementById("pointsCounter").innerText = `Points this round: ${updatedGame.score}`
+      if (updatedGame.score === 6) {
+        youWin()
+      } 
+    } )
 }
