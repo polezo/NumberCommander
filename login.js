@@ -41,6 +41,7 @@ function loginHandler(user){
 
   getLoginForm().style.display = "none"
   getLogOutBtn().style.display = "inline-block"
+  displayPointsCounter()
   console.log(loggedIn, currentUsername, currentUserId)
 }
 
@@ -52,5 +53,19 @@ function logOut(){
 
   getLogOutBtn().style.display = "none"
   getLoginForm().style.display = "inline-block"
+}
+
+function displayPointsCounter(){
+  let pointsContainer = document.querySelector("#points-container")
+  pointsContainer.innerHTML = ""
+  
+  let greetingP = document.createElement("p")
+  greetingP.innerText = `GREETINGS COMMANDER ${currentUsername.toUpperCase()}`
+
+  let pointsH2 = document.createElement("h2")
+  pointsH2.id = "pointsCounter"
+  pointsH2.innerText = "Points: 0"
+
+  pointsContainer.append(greetingP, pointsH2)
 }
 
