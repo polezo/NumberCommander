@@ -439,4 +439,5 @@ var particleGeo = new THREE.Geometry();
     document.querySelector("#expression").classList.remove("game-started")
     document.querySelector("#expression").classList.add("blinking")
     document.getElementById("title").classList.remove("title-game-started")
+    fetchAndRenderUserStats()
   }
