@@ -214,7 +214,7 @@ function persistPoints(points){
   })
     .then( response => response.json() )
     .then( function(updatedGame){
-      document.getElementById("pointsCounter").innerText = `Points: ${updatedGame.score}`
+      document.getElementById("pointsCounter").innerText = `Points this round: ${updatedGame.score}`
       if (updatedGame.score === 6) {
         youWin()
       } 

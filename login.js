@@ -116,7 +116,7 @@ function displayPointsCounter(){
 
   let pointsH2 = document.createElement("h2")
   pointsH2.id = "pointsCounter"
-  pointsH2.innerText = "Points: 0"
+  pointsH2.innerText = "Points this round: 0"
 
   pointsContainer().append(greetingP, pointsH2)
 }
