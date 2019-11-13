@@ -175,3 +175,40 @@ input[type="range"]::-webkit-slider-thumb {
   51%{color:transparent; }
   100%{   color:transparent;   }
 }
+
+.logout-login {
+  background: black;
+  color:yellow;
+  border-style:solid;
+  border-color:yellow;
+  font-size: 0.5em;
+}
+
+
+.logout-login:hover {
+  color:rgb(3, 182, 3);
+  border-color:rgb(3, 182, 3);
+}
+
+#user-name-input {
+  font-size:0.6em
+}
+
+#points-container {
+  border-right:none;
+  border-left:none;
+  font-size: 1em;
+}
+
+#pointsCounter {
+  font-size: 1em;
+}
+
+p {
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+#stats {
+  font-size:0.5em;
+}

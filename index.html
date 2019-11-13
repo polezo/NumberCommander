@@ -28,17 +28,17 @@
             <div class="col my-auto" id="points-div">
         <form id="login-form">
             <label for="username">Username: </label>
-            <input type="text" name="username">
-            <input type="submit" value="Login">
+            <input id="user-name-input" type="text" name="username" placeholder="login to save score">
+            <input class="logout-login" type="submit" value="Login">
         </form>
-        <form id="logout-button" style="display: none">
-            <input type="submit" value="Logout">
+        <button id="stats" class="hidden">Stats</button>
+        <form id="logout-button" class="hidden">
+            <input class="logout-login" type="submit" value="Logout">
         </form>
         <div id="stats-container">
           
         </div>
         <div id="points-container" class="col my-auto">
-            <p>Login to display points</p>
         </div>
             </div>
         </div>

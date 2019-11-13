@@ -4,7 +4,7 @@ let currentUserId
 
 document.addEventListener("DOMContentLoaded", () => {
   loginForm().addEventListener("submit", submitLogin)
-
+  statsBtn().addEventListener("click", toggleStats)
   logOutBtn().addEventListener("click", logOut)
 });
 
@@ -23,6 +23,11 @@ function statsContainer(){
 function pointsContainer(){
   return document.querySelector("#points-container")
 }
+
+function statsBtn() {
+  return document.querySelector("#stats")
+}
+
 // END_______________DOM NODES_______________
 
 function fetchAndRenderUserStats(){
@@ -56,7 +61,8 @@ function loginHandler(user){
 
   loginForm().style.display = "none"
   logOutBtn().style.display = "inline-block"
-  renderUserStats(user)
+  statsBtn().classList.remove("hidden")
+  // renderUserStats(user)
   displayPointsCounter()
   console.log(loggedIn, currentUsername, currentUserId)
 }
@@ -121,3 +127,13 @@ function displayPointsCounter(){
   pointsContainer().append(greetingP, pointsH2)
 }
 
+let statsToggle = false;
+
+function toggleStats() {
+  statsToggle = !statsToggle
+  if (statsToggle){
+    fetchAndRenderUserStats()
+  } else {
+    statsContainer().innerHTML = ""
+  }
+}
