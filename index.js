@@ -20,6 +20,11 @@ document.addEventListener("DOMContentLoaded", () => {
   let additionBtn = document.querySelector("#addition")
   additionBtn.addEventListener('click', () => {
     operator = "add"
+
+    if (loggedIn) {
+      createNewGame(operator)
+    }
+
     startGame()
     // generateExpression(operator, levelInfo)
   })
@@ -27,6 +32,11 @@ document.addEventListener("DOMContentLoaded", () => {
   let subtractionBtn = document.querySelector("#subtraction")
   subtractionBtn.addEventListener("click", () => {
     operator = "sub"
+
+    if (loggedIn) {
+      createNewGame(operator)
+    }
+
     startGame()
     // generateExpression("sub", levelInfo)
   })
@@ -34,11 +44,34 @@ document.addEventListener("DOMContentLoaded", () => {
   let multiplicationBtn = document.querySelector("#multiplication")
   multiplicationBtn.addEventListener("click", () => {
     operator = "mult"
+
+    if (loggedIn) {
+      createNewGame(operator)
+    }
+    
     startGame()
     // generateExpression("mult", levelInfo)
   })
   
 });
+
+function createNewGame(operator){
+  let data = {
+    user_id: currentUserId,
+    game_type: operator,
+    score: 0
+  }
+  
+  fetch('http://localhost:3000/games', {
+  method: "POST", 
+  headers: {
+    "Content-Type" : "application/json"
+  }, 
+  body: JSON.stringify(data)
+  })
+  .then( response => response.json() )
+  .then( newGame => console.log(newGame) )
+}
 
 function startGame() {
   expressionToggle = true;
