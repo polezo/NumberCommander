@@ -369,14 +369,11 @@ function onAttack(event){
 let hit = false;
 let lastHit
 
-// function playPop(){
-//   pop.play()
-// }
 
 
 function onFriendlyFire(event) {
   currentShip.lookAt(event.target.getWorldPosition(pointOfIntersection))
-  
+  setTimeout(()=>buzzbuzz.play(),75)
   let name = event.target.name.split("-")[1] 
   lastHit = event.target
   event.target.material = getNumberMat(name,"red");
@@ -510,13 +507,30 @@ let kaboomText = new THREE.SpriteSheetTexture('kaboom.png', 8, 6, 18, 64);
  kaboomSprite.geometry.scale(20,20,20)
 
 scene.add(kaboomSprite)
-// kaboom = scene.children[scene.children.length-1]
-// kaboom.position.y = -500;
+kaboom = scene.children[scene.children.length-1]
+
+
+
 }
 
 aniInit();
 
 let lzrSnd = new Audio("spaceGun.wav");
 let pop = new Audio("explode.wav");
+let buzzbuzz = new Audio("buzzbuzz.wav")
+buzzbuzz.volume = 0.09;
 
+// let logo
 
+// var logoLoader = new THREE.ObjectLoader();
+//   logoLoader.load(
+//     "logo.json",
+//     function ( obj ) {
+//   scene.add( obj );
+//   logo = scene.children[scene.children.length-1]
+//   logo.position.z = 12;
+//   logo.position.x = -9.9
+//   logo.position.y += 0.05;
+//   })
+
+//   console.log(logo)
