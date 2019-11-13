@@ -50,6 +50,7 @@ function logOut(){
   loggedIn = !loggedIn
   currentUsername = ""
   currentUserId = ""
+  gameId = ""
 
   getLogOutBtn().style.display = "none"
   getLoginForm().style.display = "inline-block"
