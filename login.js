@@ -16,6 +16,10 @@ function getLogOutBtn(){
   return document.querySelector("#logout-button")
 }
 
+function getPointsContainer(){
+  return document.querySelector("#points-container")
+}
+
 function submitLogin(event){
   event.preventDefault();
   let username = event.currentTarget.username.value;
@@ -35,7 +39,7 @@ function submitLogin(event){
 }
 
 function loginHandler(user){
-  loggedIn = !loggedIn
+  loggedIn = true
   currentUsername = user.username
   currentUserId = user.id
 
@@ -47,18 +51,18 @@ function loginHandler(user){
 
 function logOut(){
   event.preventDefault();
-  loggedIn = !loggedIn
+  loggedIn = false
   currentUsername = ""
   currentUserId = ""
   gameId = ""
 
+  getPointsContainer().innerHTML=""
   getLogOutBtn().style.display = "none"
   getLoginForm().style.display = "inline-block"
 }
 
 function displayPointsCounter(){
-  let pointsContainer = document.querySelector("#points-container")
-  pointsContainer.innerHTML = ""
+  getPointsContainer().innerHTML=""
   
   let greetingP = document.createElement("p")
   greetingP.innerText = `GREETINGS COMMANDER ${currentUsername.toUpperCase()}`
@@ -67,6 +71,6 @@ function displayPointsCounter(){
   pointsH2.id = "pointsCounter"
   pointsH2.innerText = "Points: 0"
 
-  pointsContainer.append(greetingP, pointsH2)
+  getPointsContainer().append(greetingP, pointsH2)
 }
 
