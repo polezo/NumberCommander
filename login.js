@@ -39,7 +39,7 @@ function fetchAndRenderUserStats(){
 function submitLogin(event){
   event.preventDefault();
   let username = event.currentTarget.username.value;
-  let data = {username: `${username}`}
+  let data = {username: username}
   
   fetch('http://localhost:3000/login', {
   method: "POST",
