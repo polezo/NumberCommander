@@ -1,3 +1,9 @@
+WebFont.load({
+  google: {
+    families: ['Press Start 2P']
+  }
+});
+
 //scene to render stars only
 var sceneTwo = new THREE.Scene();
 var rendererTwo = new THREE.WebGLRenderer({
@@ -5,7 +11,7 @@ var rendererTwo = new THREE.WebGLRenderer({
 })
 var canvasTwo = rendererTwo.domElement
 canvasTwo.id = "stars"
-
+sceneTwo.fog = new THREE.FogExp2(0x000000,0.07);
 
 //scene to render ship and number Enemies
 var scene = new THREE.Scene();
@@ -14,7 +20,7 @@ var renderer = new THREE.WebGLRenderer({
   antialias: true,
 });
 var canvas = renderer.domElement;
-scene.fog = new THREE.FogExp2(0x000000,0.01);
+scene.fog = new THREE.FogExp2(0x000000,0.015);
 
 //primary/only camera
 var camera = new THREE.PerspectiveCamera(
@@ -65,7 +71,7 @@ rendererTwo.setAnimationLoop(()=>{
 
 let badGuys
 let badGuys2
-let badGuySpeed = 0.19
+
 // let shakerTimer = new THREE.Clock({autoStart:false})
 
 renderer.setAnimationLoop(() => {
@@ -268,7 +274,6 @@ let boxNumber = getNumbersForEnemies(myArray)[0]
 
   //add in DomEvent Click Listener on the Number Enemies
   if (boxNumber === solutionSpace) {
-    
     domEvents.addEventListener(mesh, 'mousedown', onAttack, false);
   } else {
     domEvents.addEventListener(mesh, 'mousedown', onFriendlyFire, false);
@@ -345,9 +350,13 @@ function onLoad ( shipGltf ) {
     "lasers.json",
     function ( obj ) {
   currentShip.add( obj );
-  lasers = currentShip.children[3];
+  lasers = model.children[model.children.length-1];
     } ) 
       canvas.addEventListener("click", pewPew);
+
+  // load engine
+  engInit()
+  engInit2()
 }
 
 //fire lasers
@@ -355,16 +364,25 @@ function onLoad ( shipGltf ) {
 
 function onAttack(event){
 
-  let kaboomText = new THREE.SpriteSheetTexture('kaboom-min.png', 8, 6, 18, 64);
+  let kaboomText = new THREE.SpriteSheetTexture('./assets/kaboom-min.png', 8, 6, 18, 48,false);
   kaboomMat = new THREE.SpriteMaterial( {map:kaboomText});
   kaboomSprite = new THREE.Sprite(kaboomMat);
-  kaboomSprite.geometry.scale(25,25,25)
+  event.target.material.visible = false;
+  // kaboomSprite.scale.set(22,22,22)
     event.target.add(kaboomSprite);
-    event.target.material.visible = false;
-  setTimeout(()=>pop.play(),75)
-    addPoints()
+    // k = event.target.children[event.target.children.length-1];
+    // k.scale.set(22,22,22)
+   
+  setTimeout(()=>pop.play(),75);
+    addPoints();
+  setTimeout(removeOnAtt,800,event)
   }
  
+function removeOnAtt(event) {
+  event.target.parent.remove(event.target)
+
+}
+
  //changeColor to red on bad hit
 let hit = false;
 let lastHit
@@ -390,7 +408,11 @@ let lasersFired = false;
 
 function pewPew () {
   lzrSnd.play()
+  // setTimeout(()=>{lzrSnd.play()},300);
   lasersFired = true;
+  if (!playing) {
+    changeLogoColor()
+  }
 }
 
 //load the actual model
@@ -462,11 +484,11 @@ var particleGeo = new THREE.Geometry();
     document.querySelector("#expression").classList.remove("game-started")
     document.querySelector("#expression").classList.add("blinking")
     document.getElementById("title").classList.remove("title-game-started")
-    fetchAndRenderUserStats()
-    initLogo()
+    fetchAndRenderUserStats();
+    initLogo();
   }
 
-  THREE.SpriteSheetTexture = function(imageURL, framesX, framesY, frameDelay, _endFrame) {
+  THREE.SpriteSheetTexture = function(imageURL, framesX, framesY, frameDelay, _endFrame,looper) {
 
     var timer, frameWidth, frameHeight,
             x = 0, y = 0, count = 0, startFrame = 0, 
@@ -488,9 +510,11 @@ var particleGeo = new THREE.Geometry();
     function nextFrame() {
         count++;
 
-        // if(count >= endFrame ) {
-        //     count = 0;
-        // };
+      if (looper) {
+          if(count >= endFrame ) {
+            count = 0;
+          };
+      }
 
         x = (count % framesX) * frameWidth;
         y = ((count / framesX)|0) * frameHeight;
@@ -505,27 +529,70 @@ var particleGeo = new THREE.Geometry();
 }
 
 
-function aniInit() {
-let kaboomText = new THREE.SpriteSheetTexture('kaboom-min.png', 8, 6, 18, 64);
- kaboomMat = new THREE.SpriteMaterial( {map:kaboomText});
- kaboomSprite = new THREE.Sprite(kaboomMat);
- kaboomSprite.geometry.scale(20,20,20)
+function explInit() {
+let kaboomText = new THREE.SpriteSheetTexture('./assets/kaboom-min.png', 8, 6, 18, 48,false);
+let kaboomMat = new THREE.SpriteMaterial( {map:kaboomText});
+let kaboomSprite = new THREE.Sprite(kaboomMat);
+ kaboomSprite.geometry.scale(20,20,20);
 
-scene.add(kaboomSprite)
-kaboom = scene.children[scene.children.length-1]
+scene.add(kaboomSprite);
+// kaboom = scene.children[scene.children.length-1]
+// kaboom.scale.set(30,30,30)
+}
+explInit();
+
+// enjin
 
 
 
+function engInit() {
+let engineText = new THREE.SpriteSheetTexture('/assets/engineCharge-miny.png', 8, 4, 18, 32,true);
+let engineMat = new THREE.SpriteMaterial( {map:engineText});
+// var material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
+ let enginePlane = new THREE.Sprite(engineMat);
+//  enginePlane.geometry.scale(20,20,20)
+//  let engine = new THREE.Mesh( enginePlane, engineMat );
+  currentShip.add(enginePlane);
+  let power = currentShip.children[currentShip.children.length-1]
+  power.scale.set(12,12,12);
+  power.position.set(-78,5,-315);
+
+  var light = new THREE.PointLight( 0xfffff, 1 );
+
+power.add( light );
 }
 
-aniInit();
+function engInit2() {
+  let engineText = new THREE.SpriteSheetTexture('/assets/engineCharge-miny.png', 8, 4, 18, 32,true);
+  let engineMat = new THREE.SpriteMaterial( {map:engineText});
+  // var material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
+   let enginePlane = new THREE.Sprite(engineMat);
+  //  enginePlane.geometry.scale(20,20,20)
+  //  let engine = new THREE.Mesh( enginePlane, engineMat );
+    currentShip.add(enginePlane);
+    let power = currentShip.children[currentShip.children.length-1]
+    power.scale.set(12,12,12);
+    power.position.set(78,5,-315);
+  
+    var light = new THREE.PointLight( 0xfffff, 1 );
+  
+  power.add( light );
+  }
 
-let lzrSnd = new Audio("spaceGun.wav");
+
+//SOUND INIT
+
+let lzrSnd = new Audio("./assets/trimmed3.wav");
+lzrSnd.volume = 1;
 let pop = new Audio("explode.wav");
-let buzzbuzz = new Audio("buzzbuzz.wav")
+pop.volume = 0.28;
+let buzzbuzz = new Audio("buzzbuzz.wav");
 buzzbuzz.volume = 0.09;
 
+//LOGO
+
 let logo
+
 function initLogo() {
 var logoLoader = new THREE.ObjectLoader();
   logoLoader.load(
@@ -542,3 +609,20 @@ var logoLoader = new THREE.ObjectLoader();
 }
 
 initLogo()
+
+let colorToggle = 0
+let logoLight = new THREE.PointLight( 'red', 1 );
+logoLight.position.set( 0, 7, 2 );
+scene.add( logoLight );
+
+function changeLogoColor() {
+  colorToggle++
+  if (colorToggle===7){
+    colorToggle = 0
+  }
+  colorArr = ["yellow","turquoise","purple","yellow","yellow","orange","white"]
+  emissArr = ["red","orange","yellow","green","blue","indigo","violet"]
+  logo.material.color.set(colorArr[colorToggle])
+  logo.material.emissive.set(emissArr[colorToggle])
+  logoLight.color.set(emissArr[colorToggle])
+}

@@ -1,4 +1,5 @@
 let level = "1"
+let badGuySpeed = 0.19
 let levelInfo = {
   "randFactor": 6,
   "name" : "Easy"
@@ -76,7 +77,7 @@ function createNewGame(operator){
 }
 
 function startGame() {
-  scene.remove(logo)
+  scene.remove(logo);
   expressionToggle = true;
   statsContainer().innerHTML = ""
   badGuys = getEnemies(32)
@@ -98,16 +99,19 @@ function setDifficulty(level){
     case "1":
       levelInfo.randFactor = 7;
       levelInfo.name = "Easy";
+      badGuySpeed = 0.19
       break;
 
     case "2": 
       levelInfo.randFactor = 14;
       levelInfo.name = "Harder";
+      badGuySpeed = 0.23
       break;
 
     case "3":
       levelInfo.randFactor = 21;
       levelInfo.name = "Hardest";
+      badGuySpeed = 0.29
       break;
   }
   return levelInfo
@@ -214,7 +218,7 @@ function persistPoints(points){
     .then( response => response.json() )
     .then( function(updatedGame){
       document.getElementById("pointsCounter").innerText = `Points this round: ${updatedGame.score}`
-      if (updatedGame.score === 6) {
+      if (updatedGame.score === 10) {
         youWin()
       } 
     } )
