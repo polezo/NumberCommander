@@ -76,11 +76,9 @@ function createNewGame(operator){
 }
 
 function startGame() {
+  scene.remove(logo)
   expressionToggle = true;
-  if (badGuys) {
-    scene.remove(badGuys)
-    scene.remove(badGuys2)
-  }
+  statsContainer().innerHTML = ""
   badGuys = getEnemies(32)
   badGuys2 = getEnemies(100)
   renderExpression(expression1);
@@ -92,6 +90,7 @@ function startGame() {
   document.querySelector("#expression").classList.add("game-started")
   document.querySelector("#expression").classList.remove("blinking")
   document.getElementById("title").classList.add("title-game-started")
+
 }
 
 function setDifficulty(level){
@@ -150,7 +149,7 @@ function renderExpression(arr){
   let expressionContainer = document.querySelector("#expression")
   expressionContainer.innerText = ""
 
-  expressionContainer.append(`${arr[1]} ${operationSymbol[arr[0]]} ${arr[2]}`)
+  expressionContainer.append(`${arr[1]} ${operationSymbol[arr[0]]} ${arr[2]} =`)
   
 }
 

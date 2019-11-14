@@ -355,7 +355,7 @@ function onLoad ( shipGltf ) {
 
 function onAttack(event){
 
-  let kaboomText = new THREE.SpriteSheetTexture('kaboom.png', 8, 6, 18, 64);
+  let kaboomText = new THREE.SpriteSheetTexture('kaboom-min.png', 8, 6, 18, 64);
   kaboomMat = new THREE.SpriteMaterial( {map:kaboomText});
   kaboomSprite = new THREE.Sprite(kaboomMat);
   kaboomSprite.geometry.scale(25,25,25)
@@ -452,6 +452,10 @@ var particleGeo = new THREE.Geometry();
 
   function youWin() {
     playing = false;
+    setTimeout(()=>{
+      scene.remove(badGuys)
+      scene.remove(badGuys2)},
+      300)
     document.getElementById("buttons").classList.remove("hidden")
     document.getElementById("nextExp").classList.add("hidden")
     document.querySelector("#expression").innerText = "Select a Disipline to Start"
@@ -459,6 +463,7 @@ var particleGeo = new THREE.Geometry();
     document.querySelector("#expression").classList.add("blinking")
     document.getElementById("title").classList.remove("title-game-started")
     fetchAndRenderUserStats()
+    initLogo()
   }
 
   THREE.SpriteSheetTexture = function(imageURL, framesX, framesY, frameDelay, _endFrame) {
@@ -501,7 +506,7 @@ var particleGeo = new THREE.Geometry();
 
 
 function aniInit() {
-let kaboomText = new THREE.SpriteSheetTexture('kaboom.png', 8, 6, 18, 64);
+let kaboomText = new THREE.SpriteSheetTexture('kaboom-min.png', 8, 6, 18, 64);
  kaboomMat = new THREE.SpriteMaterial( {map:kaboomText});
  kaboomSprite = new THREE.Sprite(kaboomMat);
  kaboomSprite.geometry.scale(20,20,20)
@@ -520,17 +525,20 @@ let pop = new Audio("explode.wav");
 let buzzbuzz = new Audio("buzzbuzz.wav")
 buzzbuzz.volume = 0.09;
 
-// let logo
+let logo
+function initLogo() {
+var logoLoader = new THREE.ObjectLoader();
+  logoLoader.load(
+    "logo.json",
+    function ( obj ) {
+  scene.add( obj );
+  logo = scene.children[scene.children.length-1]
+  logo.position.z = 12;
+  logo.position.x = -9.9
+  logo.position.y += 0.1;
+  logo.material.color.set( "yellow")
+  logo.material.emissive.set( "red")
+  })
+}
 
-// var logoLoader = new THREE.ObjectLoader();
-//   logoLoader.load(
-//     "logo.json",
-//     function ( obj ) {
-//   scene.add( obj );
-//   logo = scene.children[scene.children.length-1]
-//   logo.position.z = 12;
-//   logo.position.x = -9.9
-//   logo.position.y += 0.05;
-//   })
-
-//   console.log(logo)
+initLogo()

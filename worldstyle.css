@@ -14,7 +14,9 @@ html, body {
   /* margin-top:8%; */
   height:88%;
   width:100%;
+
 }
+
 
   canvas {
     width: 100%;
@@ -22,7 +24,9 @@ html, body {
     display: inline;
     position: absolute;
     z-index:1;
+    cursor:url('./assets/targetCursorRed.png'),auto;
   }
+
 
 #stars {
     display: inline;
@@ -98,14 +102,6 @@ input[type="range"]::-webkit-slider-thumb {
   }
   /* __________End Slider CSS__________ */
 
-  /* #pointsCounter {
-    float:right;
-    padding-right:10%;
-  } */
-
-  /* #level-wrapper {
-    float:left;
-  } */
 
   .game-started {
     color:rgb(3, 182, 3);;
@@ -119,7 +115,8 @@ input[type="range"]::-webkit-slider-thumb {
 
   #nextExp {
     color:yellow;
-    font-size:1.8em;
+    font-size:1.5em;
+    border:none;
   }
 
   .title-game-started {
@@ -160,10 +157,6 @@ input[type="range"]::-webkit-slider-thumb {
     border:none;
   }
 
-  #nextExp {
-    border:none;
-  }
-
  .blinking {
   animation:blinkingText 1.5s infinite;
   font-size:1.1em;
@@ -191,7 +184,8 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 #user-name-input {
-  font-size:0.6em
+  font-size:0.4em;
+  width:250px;
 }
 
 #points-container {
