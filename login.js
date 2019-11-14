@@ -31,7 +31,7 @@ function statsBtn() {
 // END_______________DOM NODES_______________
 
 function fetchAndRenderUserStats(){
-  fetch(`http://localhost:3000/users/${currentUserId}`)
+  fetch(`https://number-commander.herokuapp.com/users/${currentUserId}`)
   .then( response => response.json() )
   .then( user =>{ renderUserStats(user)})
 }
@@ -41,7 +41,7 @@ function submitLogin(event){
   let username = event.currentTarget.username.value;
   let data = {username: username}
   
-  fetch('http://localhost:3000/login', {
+  fetch('https://number-commander.herokuapp.com/login', {
   method: "POST",
   headers: {
     "Content-Type" : "application/json"

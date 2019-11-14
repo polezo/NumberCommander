@@ -77,6 +77,7 @@ function createNewGame(operator){
 }
 
 function startGame() {
+  gladForest.play()
   scene.remove(logo);
   expressionToggle = true;
   statsContainer().innerHTML = ""
@@ -218,7 +219,7 @@ function persistPoints(points){
     .then( response => response.json() )
     .then( function(updatedGame){
       document.getElementById("pointsCounter").innerText = `Points this round: ${updatedGame.score}`
-      if (updatedGame.score === 10) {
+      if (updatedGame.score === 6) {
         youWin()
       } 
     } )

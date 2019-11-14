@@ -347,7 +347,7 @@ function onLoad ( shipGltf ) {
 
   var loader = new THREE.ObjectLoader();
   loader.load(
-    "lasers.json",
+    "./assets/lasers.json",
     function ( obj ) {
   currentShip.add( obj );
   lasers = model.children[model.children.length-1];
@@ -417,7 +417,7 @@ function pewPew () {
 
 //load the actual model
 
-loadShip('Lo_poly_Spaceship_01_by_Liz_Reddington.gltf')
+loadShip('./assets/Lo_poly_Spaceship_01_by_Liz_Reddington.gltf')
 
 //create stars particle system for star scene (scene two)
 
@@ -425,7 +425,7 @@ var particleGeo = new THREE.Geometry();
 	var particleMat = new THREE.PointsMaterial({
 		color: 'rgb(255, 255, 255)',
 		size: 0.3,
-		map: new THREE.TextureLoader().load('particle.jpg'),
+		map: new THREE.TextureLoader().load('./assets/particle.jpg'),
 		transparent: true,
 		blending: THREE.AdditiveBlending,
 		depthWrite: false
@@ -486,6 +486,7 @@ var particleGeo = new THREE.Geometry();
     document.getElementById("title").classList.remove("title-game-started")
     fetchAndRenderUserStats();
     initLogo();
+    fade(gladForest);
   }
 
   THREE.SpriteSheetTexture = function(imageURL, framesX, framesY, frameDelay, _endFrame,looper) {
@@ -546,7 +547,7 @@ explInit();
 
 
 function engInit() {
-let engineText = new THREE.SpriteSheetTexture('/assets/engineCharge-miny.png', 8, 4, 18, 32,true);
+let engineText = new THREE.SpriteSheetTexture('./assets/engineCharge-miny.png', 8, 4, 18, 32,true);
 let engineMat = new THREE.SpriteMaterial( {map:engineText});
 // var material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
  let enginePlane = new THREE.Sprite(engineMat);
@@ -584,10 +585,13 @@ function engInit2() {
 
 let lzrSnd = new Audio("./assets/trimmed3.wav");
 lzrSnd.volume = 1;
-let pop = new Audio("explode.wav");
-pop.volume = 0.28;
-let buzzbuzz = new Audio("buzzbuzz.wav");
+let pop = new Audio("./assets/explode.wav");
+pop.volume = 0.25;
+let buzzbuzz = new Audio("./assets/buzzbuzz.wav");
 buzzbuzz.volume = 0.09;
+let gladForest = new Audio("./assets/gladForest.mp3");
+gladForest.volume = 0.04;
+
 
 //LOGO
 
@@ -596,7 +600,7 @@ let logo
 function initLogo() {
 var logoLoader = new THREE.ObjectLoader();
   logoLoader.load(
-    "logo.json",
+    "./assets/logo.json",
     function ( obj ) {
   scene.add( obj );
   logo = scene.children[scene.children.length-1]
@@ -625,4 +629,13 @@ function changeLogoColor() {
   logo.material.color.set(colorArr[colorToggle])
   logo.material.emissive.set(emissArr[colorToggle])
   logoLight.color.set(emissArr[colorToggle])
+}
+
+function fade(audio){
+  if(audio.volume*(-1) > 0){
+      audio.volume -= 0.005;
+      setTimeout(fade, 2);
+  }else{
+      audio.pause();
+  }
 }
