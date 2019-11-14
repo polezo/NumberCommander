@@ -62,7 +62,7 @@ function createNewGame(operator){
     score: 0
   }
   
-  fetch('http://localhost:3000/games', {
+  fetch('https://number-commander.herokuapp.com/games', {
   method: "POST", 
   headers: {
     "Content-Type" : "application/json"
@@ -209,7 +209,7 @@ function toggleExpression() {
 function persistPoints(points){
   data = { score: points }
   
-  fetch(`http://localhost:3000/games/${gameId}`, {
+  fetch(`https://number-commander.herokuapp.com//games/${gameId}`, {
     method: "PATCH", 
     headers: {
       "Content-Type" : "application/json"
